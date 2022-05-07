@@ -1,4 +1,6 @@
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+
+import HomePage from "./pages/HomePage";
 import "./App.css";
 
 function App() {
@@ -6,7 +8,7 @@ function App() {
     <Router>
       <Switch>
         <Route exact path="/">
-          <div>Test</div>
+          <HomePage />
         </Route>
         {/* <Route path="/signin">
           <SigninPage />
