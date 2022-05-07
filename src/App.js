@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 import HomePage from "./pages/HomePage";
+import BrowsePage from "./pages/BrowsePage";
 import "./App.css";
 
 function App() {
@@ -12,10 +13,10 @@ function App() {
         </Route>
         {/* <Route path="/signin">
           <SigninPage />
-        </Route>
+        </Route> */}
         <Route path="/browse">
           <BrowsePage />
-        </Route> */}
+        </Route>
       </Switch>
     </Router>
   );
