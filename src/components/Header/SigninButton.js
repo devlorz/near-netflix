@@ -1,10 +1,10 @@
 import React from "react";
 import "./HeaderStyles.css";
 
-function SigninButton({ children, ...restProps }) {
+function SigninButton({ children, href, ...restProps }) {
   return (
     <div>
-      <a className="signin-button" href="/browse" {...restProps}>
+      <a className="signin-button" href={href} {...restProps}>
         {children}
       </a>
     </div>

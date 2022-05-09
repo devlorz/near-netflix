@@ -8,12 +8,12 @@ function OptFormCompound() {
   return (
     <>
       <OptFormText>
-        Ready to watch? Enter your email to create or restart your membership.
+        Ready to watch? Sign in and subscribe for start your membership.
       </OptFormText>
-      <OptFormWrapper>
+      {/* <OptFormWrapper>
         <OptFormEmail placeholder="Email Address" />
         <OptFormButton>Get Started</OptFormButton>
-      </OptFormWrapper>
+      </OptFormWrapper> */}
     </>
   );
 }

@@ -49,3 +49,7 @@ footer a {
 .loading img {
   width: 700px
 }
+
+.page {
+  background-color: black;
+}

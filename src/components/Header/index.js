@@ -6,12 +6,14 @@ import SigninButton from "./SigninButton";
 import FeatureWrapper from "./FeatureWrapper";
 import FeatureTitle from "./FeatureTitle";
 
+import { login } from "../../utils";
+
 function Header({ children }) {
   return (
     <HeaderWrapper className="header-wrapper-home">
       <NavBar className="navbar-home">
         <Logo />
-        <SigninButton>Sign In</SigninButton>
+        <SigninButton onClick={login}>Sign In</SigninButton>
       </NavBar>
       <FeatureWrapper className="feature-wrapper-home">
         <FeatureTitle className="feature-title-home">

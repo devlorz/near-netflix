@@ -1,4 +1,7 @@
 import React, { useEffect, useState } from "react";
+import { useHistory, withRouter } from "react-router-dom";
+
+import { logout } from "../../utils";
 import Tmdb from "../../Tmdb";
 import MovieRow from "../../components/MovieRow";
 import FeaturedMovie from "../../components/FeaturedMovie";
@@ -10,6 +13,8 @@ function Home() {
   const [featuredData, setFeaturedData] = useState(null);
   const [movieList, setMovieList] = useState([]);
   const [blackHeader, setBlackHeader] = useState(false);
+  const accountId = window.accountId;
+  const history = useHistory();
 
   useEffect(() => {
     const loadAll = async () => {
@@ -45,9 +50,15 @@ function Home() {
     };
   }, []);
 
+  useEffect(() => {
+    if (!accountId) {
+      history.push("/");
+    }
+  }, [accountId]);
+
   return (
     <div className="page">
-      <Header black={blackHeader} />
+      <Header black={blackHeader} onClick={logout} />
 
       {featuredData && <FeaturedMovie item={featuredData} />}
 
@@ -101,4 +112,4 @@ function Home() {
   );
 }
 
-export default Home;
+export default withRouter(Home);

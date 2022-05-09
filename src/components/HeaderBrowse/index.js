@@ -1,7 +1,7 @@
 import React from "react";
 import "./styles.css";
 
-function Header({ black }) {
+function Header({ black, onClick }) {
   return (
     <header className={black ? "black" : ""}>
       <div className="header--logo">
@@ -13,9 +13,9 @@ function Header({ black }) {
         </a>
       </div>
       <div className="header--user">
-        <a href="/">
+        <a onClick={onClick}>
           <img
-            alt="Usuário"
+            alt="ีuser"
             src="https://learning.royalbcmuseum.bc.ca/wp-content/uploads/2014/07/netflix-face.jpg"
           />
         </a>
