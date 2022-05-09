@@ -50,30 +50,37 @@ function Subscription() {
   };
 
   const onConfirm = async () => {
-    if (value === "mobile") {
-      await window.ftContract.ft_transfer_call(
-        {
-          receiver_id: "streaming-r-v2.dcversus.testnet",
-          amount: "1000000000000000000000000", // 1 NEAR
-          memo: "Roketo transfer",
-          msg: JSON.stringify({
-            Create: {
-              request: {
-                owner_id: accountId,
-                receiver_id: "netflix.leelorz.testnet",
-                tokens_per_sec: 385802469135802469, // 1 month for 1 NEAR
-              },
-            },
-          }),
-        },
-        200000000000000,
-        1
-      );
+    let amount = 1;
+    if (value === "basic") {
+      amount = 2;
+    } else if (value === "standard") {
+      amount = 3;
+    } else if (value === "premium") {
+      amount = 4;
     }
+    console.log(utils.format.parseNearAmount(amount.toString()));
+    await window.ftContract.ft_transfer_call(
+      {
+        receiver_id: "streaming-r-v2.dcversus.testnet",
+        amount: utils.format.parseNearAmount(amount.toString()), // 1 NEAR
+        memo: "Roketo transfer",
+        msg: JSON.stringify({
+          Create: {
+            request: {
+              owner_id: accountId,
+              receiver_id: "netflix.leelorz.testnet",
+              tokens_per_sec: amount * 385802469135802469, // 1 month for 1 NEAR
+            },
+          },
+        }),
+      },
+      200000000000000,
+      1
+    );
   };
 
   return (
-    <div className="page">
+    <div className="container">
       <Header black={true} logout={logout} />
       <div
         style={{
