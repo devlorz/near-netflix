@@ -25,23 +25,25 @@ function Subscription() {
   }, [accountId]);
 
   useEffect(() => {
-    window.contract
-      .get_account_outgoing_streams({
-        account_id: accountId,
-        from: 0,
-        limit: 5,
-      })
-      .then((res) => {
-        console.log(res);
-        const found = res.find(
-          (item) => item.receiver_id === "netflix.leelorz.testnet"
-        );
-        if (found) {
-          history.push("/browse");
-          window.location.reload();
-        }
-      });
-  }, []);
+    if (accountId) {
+      window.contract
+        .get_account_outgoing_streams({
+          account_id: accountId,
+          from: 0,
+          limit: 5,
+        })
+        .then((res) => {
+          console.log(res);
+          const found = res.find(
+            (item) => item.receiver_id === "netflix.leelorz.testnet"
+          );
+          if (found) {
+            history.push("/browse");
+            window.location.reload();
+          }
+        });
+    }
+  }, [accountId]);
 
   const handleChange = (event) => {
     setValue(event.target.value);
@@ -72,7 +74,7 @@ function Subscription() {
 
   return (
     <div className="page">
-      <Header black={true} onClick={logout} />
+      <Header black={true} logout={logout} />
       <div
         style={{
           height: "calc(100vh - 70px)",
@@ -82,7 +84,7 @@ function Subscription() {
         }}
       >
         <div style={{ width: 1024, display: "flex", flexDirection: "column" }}>
-          <h1>Select Plan</h1>
+          <h1>Select Plan Cancel Anytime</h1>
           <FormControl>
             <RadioGroup
               aria-labelledby="demo-controlled-radio-buttons-group"

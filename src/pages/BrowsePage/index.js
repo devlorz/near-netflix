@@ -15,6 +15,7 @@ function Home() {
   const [blackHeader, setBlackHeader] = useState(false);
   const accountId = window.accountId;
   const history = useHistory();
+  const [streamId, setStreamId] = useState(null);
 
   useEffect(() => {
     const loadAll = async () => {
@@ -56,9 +57,42 @@ function Home() {
     }
   }, [accountId]);
 
+  useEffect(() => {
+    if (accountId) {
+      window.contract
+        .get_account_outgoing_streams({
+          account_id: accountId,
+          from: 0,
+          limit: 5,
+        })
+        .then((res) => {
+          console.log(res);
+          const found = res.find(
+            (item) => item.receiver_id === "netflix.leelorz.testnet"
+          );
+          if (found) {
+            setStreamId(found.id);
+          } else {
+            history.push("/subscription");
+            window.location.reload();
+          }
+        });
+    }
+  }, [accountId]);
+
+  const onCancel = async () => {
+    await window.contract.stop_stream(
+      {
+        stream_id: streamId,
+      },
+      200000000000000,
+      1
+    );
+  };
+
   return (
     <div className="page">
-      <Header black={blackHeader} onClick={logout} />
+      <Header black={blackHeader} logout={logout} subscription={onCancel} />
 
       {featuredData && <FeaturedMovie item={featuredData} />}
 
