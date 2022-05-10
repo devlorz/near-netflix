@@ -5,12 +5,15 @@ import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
 import { utils } from "near-api-js";
+import BigNumber from "bignumber.js";
 
 import Header from "../../components/HeaderBrowse";
 import { logout } from "../../utils";
 
 import "./styles.css";
+import { Box } from "@mui/system";
 
 function Subscription() {
   const history = useHistory();
@@ -19,6 +22,8 @@ function Subscription() {
   const [value, setValue] = useState("basic");
   const [mode, setMode] = useState("not-subscribed");
   const [streamId, setStreamId] = useState();
+  const [wNearTotal, setwNearTotal] = useState("0");
+  const [wNearAmount, setWNearAmount] = useState("1");
 
   useEffect(() => {
     if (!accountId) {
@@ -49,6 +54,19 @@ function Subscription() {
             }
           }
         });
+    }
+  }, [accountId]);
+
+  useEffect(() => {
+    if (accountId) {
+      window.ftContract.ft_balance_of({ account_id: accountId }).then((res) => {
+        console.log(
+          new BigNumber(utils.format.formatNearAmount(res)).toFixed(2)
+        );
+        setwNearTotal(
+          new BigNumber(utils.format.formatNearAmount(res)).toFixed(2)
+        );
+      });
     }
   }, [accountId]);
 
@@ -96,6 +114,14 @@ function Subscription() {
     );
   };
 
+  const wrapNear = async () => {
+    await window.ftContract.near_deposit(
+      {},
+      200000000000000,
+      utils.format.parseNearAmount(wNearAmount)
+    );
+  };
+
   return (
     <div className="container">
       <Header black={true} logout={logout} />
@@ -105,11 +131,50 @@ function Subscription() {
           marginTop: 70,
           display: "flex",
           justifyContent: "center",
+          padding: 20,
         }}
       >
-        <div style={{ width: 1024, display: "flex", flexDirection: "column" }}>
+        <div
+          style={{
+            width: 1024,
+            display: "flex",
+            flexDirection: "column",
+            position: "relative",
+          }}
+        >
           {mode === "not-subscribed" && (
             <>
+              <Box
+                sx={{
+                  marginRight: "10px",
+                  position: "absolute",
+                  top: 0,
+                  right: 0,
+                  display: "flex",
+                  flexDirection: "column",
+                }}
+              >
+                You have total {wNearTotal} wNEAR
+                <div style={{ display: "flex", justifyContent: "flex-end" }}>
+                  <input
+                    autoComplete="off"
+                    value={wNearAmount}
+                    max="100"
+                    min="1"
+                    step="1"
+                    type="number"
+                    onChange={(e) => setWNearAmount(e.target.value)}
+                  />
+
+                  <Button
+                    variant="contained"
+                    sx={{ marginRight: "10px" }}
+                    onClick={wrapNear}
+                  >
+                    Wrap Near
+                  </Button>
+                </div>
+              </Box>
               <h1>Select Plan Cancel Anytime</h1>
               <FormControl>
                 <RadioGroup
@@ -141,8 +206,8 @@ function Subscription() {
                 </RadioGroup>
               </FormControl>
               <Button
-                variant="contained"
                 sx={{ alignSelf: "center", marginTop: "50px" }}
+                variant="contained"
                 onClick={onConfirm}
               >
                 Confirm

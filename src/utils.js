@@ -46,6 +46,7 @@ export async function initContract() {
     window.walletConnection.account(),
     "wrap.testnet",
     {
+      viewMethods: ["ft_balance_of"],
       changeMethods: ["ft_transfer_call", "near_deposit"],
     }
   );
