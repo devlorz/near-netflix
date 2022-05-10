@@ -17,6 +17,8 @@ function Subscription() {
   const accountId = window.accountId;
 
   const [value, setValue] = useState("basic");
+  const [mode, setMode] = useState("not-subscribed");
+  const [streamId, setStreamId] = useState();
 
   useEffect(() => {
     if (!accountId) {
@@ -38,8 +40,13 @@ function Subscription() {
             (item) => item.receiver_id === "netflix.leelorz.testnet"
           );
           if (found) {
-            history.push("/browse");
-            window.location.reload();
+            setStreamId(found.id);
+            if (found.status === "Active") {
+              history.push("/browse");
+              window.location.reload();
+            } else if (found.status === "Paused") {
+              setMode("paused");
+            }
           }
         });
     }
@@ -79,6 +86,16 @@ function Subscription() {
     );
   };
 
+  const onRestart = async () => {
+    await window.contract.start_stream(
+      {
+        stream_id: streamId,
+      },
+      200000000000000,
+      1
+    );
+  };
+
   return (
     <div className="container">
       <Header black={true} logout={logout} />
@@ -91,43 +108,59 @@ function Subscription() {
         }}
       >
         <div style={{ width: 1024, display: "flex", flexDirection: "column" }}>
-          <h1>Select Plan Cancel Anytime</h1>
-          <FormControl>
-            <RadioGroup
-              aria-labelledby="demo-controlled-radio-buttons-group"
-              name="controlled-radio-buttons-group"
-              value={value}
-              onChange={handleChange}
-            >
-              <FormControlLabel
-                value="mobile"
-                control={<Radio />}
-                label="Mobile: Good video quality in SD (480p). Watch on any phone or tablet. Computer and TV not included. 1 Near/month"
-              />
-              <FormControlLabel
-                value="basic"
-                control={<Radio />}
-                label="Basic: Good video quality in SD (480p). Watch on any phone, tablet, computer or TV. 2 Near/month"
-              />
-              <FormControlLabel
-                value="standard"
-                control={<Radio />}
-                label="Standard: Great video quality in Full HD (1080p). Watch on any phone, tablet, computer or TV. 3 Near/month"
-              />
-              <FormControlLabel
-                value="premium"
-                control={<Radio />}
-                label="Premium: Our best video quality in Ultra HD (4K) and HDR. Watch on any phone, tablet, computer or TV. 4 Near/month"
-              />
-            </RadioGroup>
-          </FormControl>
-          <Button
-            variant="contained"
-            sx={{ alignSelf: "center", marginTop: "50px" }}
-            onClick={onConfirm}
-          >
-            Confirm
-          </Button>
+          {mode === "not-subscribed" && (
+            <>
+              <h1>Select Plan Cancel Anytime</h1>
+              <FormControl>
+                <RadioGroup
+                  aria-labelledby="demo-controlled-radio-buttons-group"
+                  name="controlled-radio-buttons-group"
+                  value={value}
+                  onChange={handleChange}
+                >
+                  <FormControlLabel
+                    value="mobile"
+                    control={<Radio />}
+                    label="Mobile: Good video quality in SD (480p). Watch on any phone or tablet. Computer and TV not included. 1 Near/month"
+                  />
+                  <FormControlLabel
+                    value="basic"
+                    control={<Radio />}
+                    label="Basic: Good video quality in SD (480p). Watch on any phone, tablet, computer or TV. 2 Near/month"
+                  />
+                  <FormControlLabel
+                    value="standard"
+                    control={<Radio />}
+                    label="Standard: Great video quality in Full HD (1080p). Watch on any phone, tablet, computer or TV. 3 Near/month"
+                  />
+                  <FormControlLabel
+                    value="premium"
+                    control={<Radio />}
+                    label="Premium: Our best video quality in Ultra HD (4K) and HDR. Watch on any phone, tablet, computer or TV. 4 Near/month"
+                  />
+                </RadioGroup>
+              </FormControl>
+              <Button
+                variant="contained"
+                sx={{ alignSelf: "center", marginTop: "50px" }}
+                onClick={onConfirm}
+              >
+                Confirm
+              </Button>
+            </>
+          )}
+          {mode === "paused" && (
+            <>
+              <h1>Restart Subscription</h1>
+              <Button
+                variant="contained"
+                sx={{ alignSelf: "center", marginTop: "50px" }}
+                onClick={onRestart}
+              >
+                Confirm
+              </Button>
+            </>
+          )}
         </div>
       </div>
     </div>

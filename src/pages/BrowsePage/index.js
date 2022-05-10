@@ -72,6 +72,10 @@ function Home() {
           );
           if (found) {
             setStreamId(found.id);
+            if (found.status === "Paused") {
+              history.push("/subscription");
+              window.location.reload();
+            }
           } else {
             history.push("/subscription");
             window.location.reload();
@@ -90,9 +94,24 @@ function Home() {
     );
   };
 
+  const onPause = async () => {
+    await window.contract.pause_stream(
+      {
+        stream_id: streamId,
+      },
+      200000000000000,
+      1
+    );
+  };
+
   return (
     <div className="page">
-      <Header black={blackHeader} logout={logout} subscription={onCancel} />
+      <Header
+        black={blackHeader}
+        logout={logout}
+        subscription={onCancel}
+        pause={onPause}
+      />
 
       {featuredData && <FeaturedMovie item={featuredData} />}
 

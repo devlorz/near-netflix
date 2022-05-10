@@ -3,7 +3,7 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import "./styles.css";
 
-function Header({ black, subscription, logout }) {
+function Header({ black, subscription, logout, pause }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -44,6 +44,7 @@ function Header({ black, subscription, logout }) {
           "aria-labelledby": "basic-button",
         }}
       >
+        {pause && <MenuItem onClick={pause}>Pause Subscription</MenuItem>}
         {subscription && (
           <MenuItem onClick={subscription}>Cancel Subscription</MenuItem>
         )}
