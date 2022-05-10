@@ -48,7 +48,7 @@ function Header({ black, subscription, logout, pause }) {
         {subscription && (
           <MenuItem onClick={subscription}>Cancel Subscription</MenuItem>
         )}
-        <MenuItem onClick={logout}>Logout</MenuItem>
+        <MenuItem onClick={logout}>Sign Out</MenuItem>
       </Menu>
     </header>
   );

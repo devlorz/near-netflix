@@ -186,22 +186,22 @@ function Subscription() {
                   <FormControlLabel
                     value="mobile"
                     control={<Radio />}
-                    label="Mobile: Good video quality in SD (480p). Watch on any phone or tablet. Computer and TV not included. 1 Near/month"
+                    label="Mobile: Good video quality in SD (480p). Watch on any phone or tablet. Computer and TV not included. 1 wNear/month"
                   />
                   <FormControlLabel
                     value="basic"
                     control={<Radio />}
-                    label="Basic: Good video quality in SD (480p). Watch on any phone, tablet, computer or TV. 2 Near/month"
+                    label="Basic: Good video quality in SD (480p). Watch on any phone, tablet, computer or TV. 2 wNear/month"
                   />
                   <FormControlLabel
                     value="standard"
                     control={<Radio />}
-                    label="Standard: Great video quality in Full HD (1080p). Watch on any phone, tablet, computer or TV. 3 Near/month"
+                    label="Standard: Great video quality in Full HD (1080p). Watch on any phone, tablet, computer or TV. 3 wNear/month"
                   />
                   <FormControlLabel
                     value="premium"
                     control={<Radio />}
-                    label="Premium: Our best video quality in Ultra HD (4K) and HDR. Watch on any phone, tablet, computer or TV. 4 Near/month"
+                    label="Premium: Our best video quality in Ultra HD (4K) and HDR. Watch on any phone, tablet, computer or TV. 4 wNear/month"
                   />
                 </RadioGroup>
               </FormControl>
