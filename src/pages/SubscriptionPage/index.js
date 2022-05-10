@@ -216,7 +216,7 @@ function Subscription() {
           )}
           {mode === "paused" && (
             <>
-              <h1>Restart Subscription</h1>
+              <h1>Resume Subscription</h1>
               <Button
                 variant="contained"
                 sx={{ alignSelf: "center", marginTop: "50px" }}
